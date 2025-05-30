@@ -7,8 +7,13 @@ HEIGHT = 1080
 
 green_ball = pyglet.image.load("green.png")
 red_ball = pyglet.image.load("red.png")
+yellow_ball = pyglet.image.load("yellow.png")
+purple_ball = pyglet.image.load("purple.png")
+blue_ball = pyglet.image.load("blue.png")
 
 class Ball:
+    def __init__(self, hide_picture):
+        self.hide_picture = hide_picture
 
     def initialize(self):
         self.size = 64
@@ -18,8 +23,8 @@ class Ball:
         self.ball_image = green_ball
 
     def draw(self):
-        self.obrazek = pyglet.sprite.Sprite(self.ball_image, self.position[0] - self.size // 2, self.position[1] - self.size // 2)
-        self.obrazek.draw()
+        self.picture = pyglet.sprite.Sprite(self.ball_image, self.position[0] - self.size // 2, self.position[1] - self.size // 2)
+        self.picture.draw()
 
     def move(self, dt):
         self.position[0] += self.direction[0] * dt * self.speed
@@ -38,36 +43,38 @@ class Ball:
     def change_image(self, x, y, button, modifiers):
         if x >= self.position[0] - self.size // 2 and x <= self.position[0] + self.size // 2:
             if y >= self.position[1] - self.size // 2 and y <= self.position[1] + self.size // 2:
-                self.ball_image = red_ball
+                self.ball_image = self.hide_picture
                 pyglet.clock.schedule_once(self.change_image_back, 0.5)
                 
     def change_image_back(self, t):
         self.ball_image = green_ball
         
+code_ball = [red_ball, yellow_ball, purple_ball]
+balls = []
+for code in code_ball:
+    ball = Ball(code)
+    ball.initialize()
+    balls.append(ball)
 
-ball_A = Ball()
-ball_A.initialize()
-
-ball_B = Ball()
-ball_B.initialize()
-
-green_ball = pyglet.image.load("green.png")
-red_ball = pyglet.image.load("red.png")
+for ball in range(10):
+    ball = Ball(blue_ball)
+    ball.initialize()
+    balls.append(ball)
 
 window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
 
 @window.event
 def on_draw():
     window.clear()
-    ball_A.draw()
-    ball_B.draw()
+    for ball in balls:
+        ball.draw()
 
 @window.event
 def on_mouse_press(x, y, button, modifiers):
-    ball_A.change_image(x, y, button, modifiers)
-    ball_B.change_image(x, y, button, modifiers)
+    for ball in balls:
+        ball.change_image(x, y, button, modifiers)
 
-pyglet.clock.schedule(ball_A.move)
-pyglet.clock.schedule(ball_B.move)
+for ball in balls:
+    pyglet.clock.schedule(ball.move)
 
 pyglet.app.run()
