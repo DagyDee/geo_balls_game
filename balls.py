@@ -5,26 +5,30 @@ import random
 WIDTH = 1920
 HEIGHT = 1080
 
-green_ball = pyglet.image.load("green.png")
+# images
 red_ball = pyglet.image.load("red.png")
 yellow_ball = pyglet.image.load("yellow.png")
-purple_ball = pyglet.image.load("purple.png")
-blue_ball = pyglet.image.load("blue.png")
+
+labels = ["A=5", "B=3", "C=7", "D=1", "E=9", "F=2"]
 
 class Ball:
-    def __init__(self, hide_picture):
-        self.hide_picture = hide_picture
+    def __init__(self, hide_text):
+        self.hide_text = hide_text
 
     def initialize(self):
         self.size = 64
-        self.speed = 500
+        self.speed = 200
         self.position = [random.randint(0, WIDTH), random.randint(0, HEIGHT)]  # coordinates x, y
         self.direction = [random.uniform(-1, 1), random.uniform(-1, 1)]  #  in axes x, y
-        self.ball_image = green_ball
+        self.ball_image = red_ball
+        self.show_text = False
 
     def draw(self):
         self.picture = pyglet.sprite.Sprite(self.ball_image, self.position[0] - self.size // 2, self.position[1] - self.size // 2)
         self.picture.draw()
+        self.label = pyglet.text.Label(self.hide_text, font_size=20, color=(0, 0, 0), x=self.position[0], y=self.position[1], anchor_x='center', anchor_y='center')
+        if self.show_text == True:
+            self.label.draw()
 
     def move(self, dt):
         self.position[0] += self.direction[0] * dt * self.speed
@@ -40,26 +44,33 @@ class Ball:
         if self.position[1] > HEIGHT - self.size // 2:
             self.direction[1] = -abs(self.direction[1])
     
-    def change_image(self, x, y, button, modifiers):
+    def show_label(self, x, y, button, modifiers):
         if x >= self.position[0] - self.size // 2 and x <= self.position[0] + self.size // 2:
             if y >= self.position[1] - self.size // 2 and y <= self.position[1] + self.size // 2:
-                self.ball_image = self.hide_picture
-                pyglet.clock.schedule_once(self.change_image_back, 0.5)
+                self.show_text = True
+                self.ball_image = yellow_ball
+
+                pyglet.clock.schedule_once(self.hide_label, 0.5)
                 
-    def change_image_back(self, t):
-        self.ball_image = green_ball
-        
-code_ball = [red_ball, yellow_ball, purple_ball]
+    def hide_label(self, t):
+        self.show_text = False
+        self.ball_image = red_ball
+
+# creating objects:
 balls = []
-for code in code_ball:
-    ball = Ball(code)
+
+# create balls with secret
+for label in labels:
+    ball = Ball(label)
     ball.initialize()
     balls.append(ball)
 
-for ball in range(10):
-    ball = Ball(blue_ball)
+# create other balls
+for ball in range(100):
+    ball = Ball("X")
     ball.initialize()
     balls.append(ball)
+
 
 window = pyglet.window.Window(width=WIDTH, height=HEIGHT)
 
@@ -72,7 +83,7 @@ def on_draw():
 @window.event
 def on_mouse_press(x, y, button, modifiers):
     for ball in balls:
-        ball.change_image(x, y, button, modifiers)
+        ball.show_label(x, y, button, modifiers)
 
 for ball in balls:
     pyglet.clock.schedule(ball.move)
