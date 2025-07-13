@@ -1,1 +1,0 @@
-Click on a ball and will seen the secret!
