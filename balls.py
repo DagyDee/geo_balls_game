@@ -80,10 +80,11 @@ class Ball:
         """              
         if x >= self.position[0] - HALF_BALL_SIZE and x <= self.position[0] + HALF_BALL_SIZE:
             if y >= self.position[1] - HALF_BALL_SIZE and y <= self.position[1] + HALF_BALL_SIZE:
-                self.show_text = True
-                self.ball_image = IMAGE_BACK_SIDE
-                self.sprite.image = self.ball_image
-                pyglet.clock.schedule_once(self.hide_label, LABEL_DISPLAY_TIME)
+                if not self.show_text:
+                    self.show_text = True
+                    self.ball_image = IMAGE_BACK_SIDE
+                    self.sprite.image = self.ball_image
+                    pyglet.clock.schedule_once(self.hide_label, LABEL_DISPLAY_TIME)
                 
     def hide_label(self, t):
         """
