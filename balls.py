@@ -2,8 +2,8 @@ import pyglet
 import random
 
 # window configuration
-WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
+START_WIDTH = 1920
+START_HEIGHT = 1080
 BALL_SPEED = 100
 NUM_OTHER_BALLS = 20
 OTHER_BALLS_LABEL = "X"
@@ -18,7 +18,7 @@ IMAGE_BACK_SIDE = pyglet.image.load("red_ball.png")
 BALL_IMAGE_SIZE = IMAGE_FRONT_SIDE.width
 
 
-window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
+window = pyglet.window.Window(width=START_WIDTH, height=START_HEIGHT, resizable=True)
 
 class Ball:
     def __init__(self, hide_text):
@@ -26,7 +26,7 @@ class Ball:
         #self.speed = 200
         self.ball_image = IMAGE_FRONT_SIDE
         self.show_text = False
-        self.position = [random.randint(0, WINDOW_WIDTH), random.randint(0, WINDOW_HEIGHT)]  # coordinates x, y
+        self.position = [random.randint(0, window.width), random.randint(0, window.height)]  # coordinates x, y
         self.direction = [random.uniform(-1, 1), random.uniform(-1, 1)]  # in axes x, y
         self.sprite = pyglet.sprite.Sprite(self.ball_image, self.position[0] - BALL_IMAGE_SIZE // 2, self.position[1] - BALL_IMAGE_SIZE // 2)
         self.label = pyglet.text.Label(self.hide_text, font_size=20, color=(0, 0, 0), x=self.position[0], y=self.position[1], anchor_x='center', anchor_y='center')
@@ -56,11 +56,11 @@ class Ball:
         # movement barriers
         if self.position[0] < BALL_IMAGE_SIZE // 2:
             self.direction[0] = abs(self.direction[0])
-        if self.position[0] > WINDOW_WIDTH - BALL_IMAGE_SIZE // 2:
+        if self.position[0] > window.width - BALL_IMAGE_SIZE // 2:
             self.direction[0] = -abs(self.direction[0])
         if self.position[1] < BALL_IMAGE_SIZE // 2:
             self.direction[1] = abs(self.direction[1])
-        if self.position[1] > WINDOW_HEIGHT - BALL_IMAGE_SIZE // 2:
+        if self.position[1] > window.height - BALL_IMAGE_SIZE // 2:
             self.direction[1] = -abs(self.direction[1])
     
     def show_label(self, x, y, button, modifiers):
