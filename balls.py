@@ -16,6 +16,7 @@ IMAGE_BACK_SIDE = pyglet.image.load("red_ball.png")
 
 # derived configuration (depends on assets)
 BALL_IMAGE_SIZE = IMAGE_FRONT_SIDE.width
+HALF_BALL_SIZE = BALL_IMAGE_SIZE // 2
 
 
 window = pyglet.window.Window(width=START_WIDTH, height=START_HEIGHT, resizable=True)
@@ -23,13 +24,22 @@ window = pyglet.window.Window(width=START_WIDTH, height=START_HEIGHT, resizable=
 class Ball:
     def __init__(self, hide_text):
         self.hide_text = hide_text  
-        #self.speed = 200
         self.ball_image = IMAGE_FRONT_SIDE
         self.show_text = False
-        self.position = [random.randint(0, window.width), random.randint(0, window.height)]  # coordinates x, y
-        self.direction = [random.uniform(-1, 1), random.uniform(-1, 1)]  # in axes x, y
-        self.sprite = pyglet.sprite.Sprite(self.ball_image, self.position[0] - BALL_IMAGE_SIZE // 2, self.position[1] - BALL_IMAGE_SIZE // 2)
-        self.label = pyglet.text.Label(self.hide_text, font_size=20, color=(0, 0, 0), x=self.position[0], y=self.position[1], anchor_x='center', anchor_y='center')
+        self.position = [random.randint(HALF_BALL_SIZE, window.width - HALF_BALL_SIZE), 
+                         random.randint(HALF_BALL_SIZE, window.height - HALF_BALL_SIZE)]
+        self.direction = [random.uniform(-1, 1), 
+                          random.uniform(-1, 1)]  # in axes x, y
+        self.sprite = pyglet.sprite.Sprite(self.ball_image, 
+                                           self.position[0] - HALF_BALL_SIZE, 
+                                           self.position[1] - HALF_BALL_SIZE)
+        self.label = pyglet.text.Label(self.hide_text, 
+                                       font_size=20, 
+                                       color=(0, 0, 0), 
+                                       x=self.position[0], 
+                                       y=self.position[1], 
+                                       anchor_x='center', 
+                                       anchor_y='center')
 
     def draw(self):
         """
@@ -48,19 +58,19 @@ class Ball:
         self.position[1] += self.direction[1] * dt * BALL_SPEED
 
         # update sprite and label positions
-        self.sprite.x = self.position[0] - BALL_IMAGE_SIZE // 2
-        self.sprite.y = self.position[1] - BALL_IMAGE_SIZE // 2
+        self.sprite.x = self.position[0] - HALF_BALL_SIZE
+        self.sprite.y = self.position[1] - HALF_BALL_SIZE
         self.label.x = self.position[0]
         self.label.y = self.position[1]
 
         # movement barriers
-        if self.position[0] < BALL_IMAGE_SIZE // 2:
+        if self.position[0] < HALF_BALL_SIZE:
             self.direction[0] = abs(self.direction[0])
-        if self.position[0] > window.width - BALL_IMAGE_SIZE // 2:
+        if self.position[0] > window.width - HALF_BALL_SIZE:
             self.direction[0] = -abs(self.direction[0])
-        if self.position[1] < BALL_IMAGE_SIZE // 2:
+        if self.position[1] < HALF_BALL_SIZE:
             self.direction[1] = abs(self.direction[1])
-        if self.position[1] > window.height - BALL_IMAGE_SIZE // 2:
+        if self.position[1] > window.height - HALF_BALL_SIZE:
             self.direction[1] = -abs(self.direction[1])
     
     def show_label(self, x, y, button, modifiers):
@@ -68,8 +78,8 @@ class Ball:
         Changes the image and displays the label when the user clicks on the object.
         After a set time has passed, it calls the 'hide_label' function.
         """              
-        if x >= self.position[0] - BALL_IMAGE_SIZE // 2 and x <= self.position[0] + BALL_IMAGE_SIZE // 2:
-            if y >= self.position[1] - BALL_IMAGE_SIZE // 2 and y <= self.position[1] + BALL_IMAGE_SIZE // 2:
+        if x >= self.position[0] - HALF_BALL_SIZE and x <= self.position[0] + HALF_BALL_SIZE:
+            if y >= self.position[1] - HALF_BALL_SIZE and y <= self.position[1] + HALF_BALL_SIZE:
                 self.show_text = True
                 self.ball_image = IMAGE_BACK_SIDE
                 self.sprite.image = self.ball_image
