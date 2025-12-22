@@ -1,18 +1,22 @@
 import pyglet
 import random
 
-# configuration
+# window configuration
 WINDOW_WIDTH = 1920
 WINDOW_HEIGHT = 1080
 BALL_SPEED = 100
-BALL_IMAGE_SIZE = 64
 NUM_OTHER_BALLS = 20
 OTHER_BALLS_LABEL = "X"
 LABELS = ["A=5", "B=3", "C=7", "D=1", "E=9", "F=2"]
 LABEL_DISPLAY_TIME = 0.5
 
+# images
 IMAGE_FRONT_SIDE = pyglet.image.load("green_ball.png")
 IMAGE_BACK_SIDE = pyglet.image.load("red_ball.png")
+
+# derived configuration (depends on assets)
+BALL_IMAGE_SIZE = IMAGE_FRONT_SIDE.width
+
 
 window = pyglet.window.Window(width=WINDOW_WIDTH, height=WINDOW_HEIGHT)
 
