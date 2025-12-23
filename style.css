@@ -1,9 +1,168 @@
+/* Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-    font-size: 1.5em;
+    background: #F0EDEB;
+    color: #1b1b1b;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Header / Hero */
+header {
+    background-color: #02874D;
+    color: #FFF9BB;
+    text-align: center;
+    padding: 3rem 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+header h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+header .primary-button {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    background-color: #025C3A;
+    color: #FFF9BB;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+header .primary-button:hover {
+    background-color: #017145;
+    transform: translateY(-3px);
+}
+
+/* Sections */
+section {
+    max-width: 95%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #FFF9BB; /* světlá žlutá */
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+section h2 {
+    color: #02874D;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+section p,
+section ul {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+section ul li {
+    position: relative;
+    padding-left: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+section ul li::before {
+    content: "•";
+    color: #02874D;
+    font-size: 1.4rem;
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+}
+
+/* Download button */
+.download-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #025C3A;
+    color: #FFF9BB;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
     text-align: center;
 }
 
-h1 {
-    font-size: 4em;
-    color: green;
+.download-button:hover {
+    background-color: #017145;
+    transform: translateY(-3px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    background-color: #F0EDEB;
+    margin-top: 2rem;
+}
+
+footer a {
+    color: #02874D;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Media queries – tablet */
+@media (min-width: 600px) {
+    header h1 {
+        font-size: 2.8rem;
+    }
+
+    section {
+        max-width: 85%;
+        padding: 2rem;
+    }
+
+    section p,
+    section ul {
+        font-size: 1.1rem;
+    }
+}
+
+/* Media queries – desktop */
+@media (min-width: 1024px) {
+    header h1 {
+        font-size: 3.5rem;
+    }
+
+    section {
+        max-width: 900px;
+    }
 }
